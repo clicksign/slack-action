@@ -1,0 +1,40 @@
+name: Slack Send Message
+
+on:
+  workflow_dispatch:
+
+jobs:
+  slack:
+    runs-on: ubuntu-latest
+    outputs:
+      thread_ts: ${{ steps.thread_id.outputs.thread_ts }}
+    steps:
+      - name: Checkout Github
+        uses: actions/checkout@v3
+
+      - name: Slack Send Message
+        id: thread_id
+        uses: ./
+        with:
+          channel_id: ${{secrets.CHANNEL_ID}}
+        env:
+          SLACK_TOKEN: ${{secrets.SLACK_TOKEN}}
+
+  slack-thread:
+    runs-on: ubuntu-latest
+    needs: slack
+    steps:
+      - name: Checkout Github
+        uses: actions/checkout@v3
+
+      - name: Echo Thread ID
+        run: echo ${{ needs.slack.outputs.thread_ts }}
+
+      - name: Slack Send Message in Thread
+        uses: ./
+        with:
+          channel_id: ${{secrets.CHANNEL_ID}}
+          thread_ts: ${{ needs.slack.outputs.thread_ts }}
+          payload: 'Testando'
+        env:
+          SLACK_TOKEN: ${{secrets.SLACK_TOKEN}}
