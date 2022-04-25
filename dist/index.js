@@ -193,8 +193,9 @@ exports.slack = slack;
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 function templatesDefault({ repoName, tag, environment }) {
     const templates = {
-        '1': `@channel Deploy *${repoName}* \`${tag}\` em *${environment}*`,
-        '2': `@channel Sanity Check Automatizado *${repoName}* \`${tag}\` em *${environment}*`
+        '1': `@channel \`*Iniciado*\` Deploy *${repoName}* \`${tag}\` em *${environment}*`,
+        '2': `@channel \`*Finalizado*\` Deploy *${repoName}* \`${tag}\` em *${environment}*`,
+        '3': `@channel \`*Falha*\` Deploy *${repoName}* \`${tag}\` em *${environment}*`
     };
     return templates;
 }

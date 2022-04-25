@@ -81,5 +81,6 @@ The templates in templates-default.ts.
 
 | Template |                        description                                 |
 |----------|:-------------------------------------------------------------------|
-| 1        | @channel Deploy repository_name main em Sandbox                    |
-| 2        | @channel Sanity Check Automatizado repository_name main em Sandbox |
+| 1        | @channel Iniciado Deploy repository_name main em Sandbox           |
+| 2        | @channel Finalizado Deploy repository_name main em Sandbox         |
+| 3        | @channel Falha Deploy repository_name main em Sandbox              |

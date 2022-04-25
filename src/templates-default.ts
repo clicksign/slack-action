@@ -10,8 +10,9 @@ function templatesDefault({
   environment
 }: ITemplatesDefault): ITemplates {
   const templates: ITemplates = {
-    '1': `@channel Deploy *${repoName}* \`${tag}\` em *${environment}*`,
-    '2': `@channel Sanity Check Automatizado *${repoName}* \`${tag}\` em *${environment}*`
+    '1': `@channel \`*Iniciado*\` Deploy *${repoName}* \`${tag}\` em *${environment}*`,
+    '2': `@channel \`*Finalizado*\` Deploy *${repoName}* \`${tag}\` em *${environment}*`,
+    '3': `@channel \`*Falha*\` Deploy *${repoName}* \`${tag}\` em *${environment}*`
   }
 
   return templates
