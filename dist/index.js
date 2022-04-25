@@ -56,11 +56,13 @@ function run() {
             const payload = core.getInput('payload');
             const threadTS = core.getInput('thread_ts');
             const environment = core.getInput('environment');
+            const template = core.getInput('template');
             (0, slack_1.slack)({
                 channelID,
                 payload,
                 threadTS,
-                environment
+                environment,
+                template
             });
         }
         catch (error) {
@@ -111,12 +113,16 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.slack = void 0;
 const core = __importStar(__nccwpck_require__(2186));
 const github_1 = __nccwpck_require__(5438);
 const web_api_1 = __nccwpck_require__(431);
-function slack({ payload, channelID, threadTS, environment }) {
+const templates_default_1 = __importDefault(__nccwpck_require__(2483));
+function slack({ payload, channelID, threadTS, environment, template }) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         core.debug(`Start slack message...`);
@@ -128,12 +134,14 @@ function slack({ payload, channelID, threadTS, environment }) {
                 : github_1.context.ref.slice(11);
             const repoName = github_1.context.repo.repo;
             const runUrl = `${(_a = github_1.context.payload.repository) === null || _a === void 0 ? void 0 : _a.html_url}/actions/runs/${github_1.context.runId}`;
+            const text = (0, templates_default_1.default)({ repoName, tag, environment })[template];
             const blocks = [
                 {
                     type: 'section',
                     text: {
                         type: 'mrkdwn',
                         text: payload ||
+                            text ||
                             `@channel Deploy *${repoName}* \`${tag}\` em *${environment}*`
                     }
                 }
@@ -173,6 +181,24 @@ function slack({ payload, channelID, threadTS, environment }) {
     });
 }
 exports.slack = slack;
+
+
+/***/ }),
+
+/***/ 2483:
+/***/ ((__unused_webpack_module, exports) => {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", ({ value: true }));
+function templatesDefault({ repoName, tag, environment }) {
+    const templates = {
+        '1': `@channel Deploy *${repoName}* \`${tag}\` em *${environment}*`,
+        '2': `@channel Sanity Check Automatizado *${repoName}* \`${tag}\` em *${environment}*`
+    };
+    return templates;
+}
+exports.default = templatesDefault;
 
 
 /***/ }),

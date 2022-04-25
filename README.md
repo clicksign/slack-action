@@ -38,9 +38,10 @@ The action.yml defines news inputs and output for action.
 | payload                      | false         | null         | add payload send message                      |
 | thread_ts                    | false         | null         | add thread id                                 |
 | environment                  | true          | Sandbox      | add name environment                          |
+| template                     | true          | 1            | template msg to slack                         |
 
 
-## Example
+## Example1
 
 ```javascript
 jobs:
@@ -48,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Slack Send Message
-        uses: linkinn/slack-action
+        uses: clicksign/slack-action
         with:
           channel_id: 'channelID'
           payload: 'hello world'
@@ -56,3 +57,29 @@ jobs:
         env:
           SLACK_TOKEN: ${{secrets.SLACK_TOKEN}}
 ```
+
+## Example2
+
+```javascript
+jobs:
+  slack:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Slack Send Message
+        uses: clicksign/slack-action
+        with:
+          channel_id: 'channelID'
+          template: '2'
+          thread_ts: 'threadID'
+        env:
+          SLACK_TOKEN: ${{secrets.SLACK_TOKEN}}
+```
+
+## Templates Default
+
+The templates in templates-default.ts.
+
+| Template |                        description                                 |
+|----------|:-------------------------------------------------------------------|
+| 1        | @channel Deploy repository_name main em Sandbox                    |
+| 2        | @channel Sanity Check Automatizado repository_name main em Sandbox |

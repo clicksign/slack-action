@@ -2,12 +2,14 @@ import * as core from '@actions/core'
 import {context} from '@actions/github'
 import {WebClient} from '@slack/web-api'
 import {ISlack, IBlocks} from './slack-interface'
+import templatesDefault from './templates-default'
 
 export async function slack({
   payload,
   channelID,
   threadTS,
-  environment
+  environment,
+  template
 }: ISlack): Promise<void> {
   core.debug(`Start slack message...`)
 
@@ -19,6 +21,7 @@ export async function slack({
       : context.ref.slice(11)
     const repoName = context.repo.repo
     const runUrl = `${context.payload.repository?.html_url}/actions/runs/${context.runId}`
+    const text = templatesDefault({repoName, tag, environment})[template]
 
     const blocks: IBlocks[] = [
       {
@@ -27,6 +30,7 @@ export async function slack({
           type: 'mrkdwn',
           text:
             payload ||
+            text ||
             `@channel Deploy *${repoName}* \`${tag}\` em *${environment}*`
         }
       }
