@@ -3,6 +3,8 @@ import {slack} from './slack'
 
 async function run(): Promise<void> {
   try {
+    const repo = core.getInput('repo_name')
+    const repoTag = core.getInput('repo_tag')
     const channelID = core.getInput('channel_id')
     const payload = core.getInput('payload')
     const threadTS = core.getInput('thread_ts')
@@ -10,6 +12,8 @@ async function run(): Promise<void> {
     const template = core.getInput('template')
 
     slack({
+      repo,
+      repoTag,
       channelID,
       payload,
       threadTS,

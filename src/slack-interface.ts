@@ -1,4 +1,6 @@
 export interface ISlack {
+  repo: string
+  repoTag: string
   payload: string
   channelID: string
   threadTS: string

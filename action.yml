@@ -2,6 +2,12 @@ name: 'Slack Send Message Clicksign'
 description: 'Send message to slack and return thread id'
 author: 'Team Devops'
 inputs:
+  repo_name:
+    required: false
+    description: 'add repository github name'
+  repo_tag:
+    required: false
+    description: 'add repository github branch'
   channel_id:
     required: true
     description: 'add channel id'

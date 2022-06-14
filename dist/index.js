@@ -52,12 +52,16 @@ const slack_1 = __nccwpck_require__(568);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            const repo = core.getInput('repo_name');
+            const repoTag = core.getInput('repo_tag');
             const channelID = core.getInput('channel_id');
             const payload = core.getInput('payload');
             const threadTS = core.getInput('thread_ts');
             const environment = core.getInput('environment');
             const template = core.getInput('template');
             (0, slack_1.slack)({
+                repo,
+                repoTag,
                 channelID,
                 payload,
                 threadTS,
@@ -122,17 +126,17 @@ const core = __importStar(__nccwpck_require__(2186));
 const github_1 = __nccwpck_require__(5438);
 const web_api_1 = __nccwpck_require__(431);
 const templates_default_1 = __importDefault(__nccwpck_require__(2483));
-function slack({ payload, channelID, threadTS, environment, template }) {
+function slack({ repo, repoTag, payload, channelID, threadTS, environment, template }) {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         core.debug(`Start slack message...`);
         try {
             const slackToken = process.env.SLACK_TOKEN;
             const webClient = new web_api_1.WebClient(slackToken);
-            const tag = github_1.context.ref.includes('refs/tags/')
+            const tag = repoTag || github_1.context.ref.includes('refs/tags/')
                 ? github_1.context.ref.slice(10)
                 : github_1.context.ref.slice(11);
-            const repoName = github_1.context.repo.repo;
+            const repoName = repo || github_1.context.repo.repo;
             const runUrl = `${(_a = github_1.context.payload.repository) === null || _a === void 0 ? void 0 : _a.html_url}/actions/runs/${github_1.context.runId}`;
             const text = (0, templates_default_1.default)({ repoName, tag, environment })[template];
             const blocks = [
