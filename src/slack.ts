@@ -18,10 +18,11 @@ export async function slack({
   try {
     const slackToken = process.env.SLACK_TOKEN
     const webClient = new WebClient(slackToken)
-    const tag =
-      repoTag || context.ref.includes('refs/tags/')
-        ? context.ref.slice(10)
-        : context.ref.slice(11)
+    const tag = repoTag
+      ? repoTag
+      : context.ref.includes('refs/tags/')
+      ? context.ref.slice(10)
+      : context.ref.slice(11)
     const repoName = repo || context.repo.repo
     const runUrl = `${context.payload.repository?.html_url}/actions/runs/${context.runId}`
     const text = templatesDefault({repoName, tag, environment})[template]

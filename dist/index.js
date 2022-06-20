@@ -133,9 +133,10 @@ function slack({ repo, repoTag, payload, channelID, threadTS, environment, templ
         try {
             const slackToken = process.env.SLACK_TOKEN;
             const webClient = new web_api_1.WebClient(slackToken);
-            const tag = repoTag || github_1.context.ref.includes('refs/tags/')
-                ? github_1.context.ref.slice(10)
-                : github_1.context.ref.slice(11);
+            const tag = repoTag ? repoTag
+                : github_1.context.ref.includes('refs/tags/')
+                    ? github_1.context.ref.slice(10)
+                    : github_1.context.ref.slice(11);
             const repoName = repo || github_1.context.repo.repo;
             const runUrl = `${(_a = github_1.context.payload.repository) === null || _a === void 0 ? void 0 : _a.html_url}/actions/runs/${github_1.context.runId}`;
             const text = (0, templates_default_1.default)({ repoName, tag, environment })[template];
